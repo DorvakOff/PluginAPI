@@ -40,6 +40,7 @@ public class ModuleManager {
                     plugin.getLogger().info("Module initialized : " + m.getName());
                 }
             } catch (Exception e) {
+                e.printStackTrace();
                 plugin.getLogger().severe("Failed to initialize module " + module.getSimpleName());
             }
         });

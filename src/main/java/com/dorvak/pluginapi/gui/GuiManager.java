@@ -93,6 +93,7 @@ public class GuiManager implements Listener {
                 Gui gui = this.guis.get(guiName).getConstructor(Player.class).newInstance(player);
                 success = gui.onAction(action, event);
             } catch (Exception e) {
+                e.printStackTrace();
                 plugin.getLogger().severe("Failed to handle action " + action + " for gui " + guiName + "!");
             }
 
