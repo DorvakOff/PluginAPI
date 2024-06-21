@@ -22,13 +22,28 @@ public abstract class Gui {
     protected String title;
     protected Inventory inventory;
     private final Map<Character, ItemStack> templateContents;
+    private final Map<Integer, ItemStack> itemsToSet;
 
     public Gui(Player player, int rows, String title) {
         this.player = player;
         this.rows = rows;
         this.title = title;
+        this.itemsToSet = new HashMap<>();
         this.inventory = Bukkit.createInventory(new GuiHolder(), this.getSize(), this.getTitle());
         this.templateContents = new HashMap<>();
+    }
+
+    public void setItem(int slot, String action, ItemStack itemStack) {
+        ItemMeta meta = itemStack.getItemMeta();
+        CustomItemTagContainer container = meta.getCustomTagContainer();
+        String guiName = this.getClass().getAnnotation(CustomGui.class).name();
+
+        container.setCustomTag(PluginKeys.GUI_ACTION, ItemTagType.STRING, action);
+        container.setCustomTag(PluginKeys.GUI_NAME, ItemTagType.STRING, guiName);
+
+        itemStack.setItemMeta(meta);
+
+        this.itemsToSet.put(slot, itemStack);
     }
 
     public String getTitle() {
@@ -65,6 +80,11 @@ public abstract class Gui {
             }
             this.inventory.setItem(i, this.templateContents.get(template[i]));
         }
+
+        for (Map.Entry<Integer, ItemStack> entry : this.itemsToSet.entrySet()) {
+            this.inventory.setItem(entry.getKey(), entry.getValue());
+        }
+
         this.player.openInventory(this.inventory);
     }
 
