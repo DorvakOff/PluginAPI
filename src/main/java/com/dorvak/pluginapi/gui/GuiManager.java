@@ -88,11 +88,18 @@ public class GuiManager implements Listener {
         if ("close".equalsIgnoreCase(action)) {
             event.getWhoClicked().closeInventory();
         } else {
+            boolean success = false;
             try {
                 Gui gui = this.guis.get(guiName).getConstructor(Player.class).newInstance(player);
-                gui.onAction(action, event);
+                success = gui.onAction(action, event);
             } catch (Exception e) {
                 plugin.getLogger().severe("Failed to handle action " + action + " for gui " + guiName + "!");
+            }
+
+            if (success) {
+                player.playSound(player.getLocation(), "ui.button.click", 1, 1);
+            } else {
+                player.playSound(player.getLocation(), "ui.button.click", 1, 0.5f);
             }
         }
     }

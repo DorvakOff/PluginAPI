@@ -142,7 +142,7 @@ public abstract class Gui {
         this.setItem(key, item);
     }
 
-    public void onAction(String action, InventoryClickEvent event) {
+    public boolean onAction(String action, InventoryClickEvent event) {
         throw new UnsupportedOperationException("Action " + action + " not supported!");
     }
 }
