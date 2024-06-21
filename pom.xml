@@ -60,4 +60,11 @@
         </plugins>
     </build>
 
+    <distributionManagement>
+        <repository>
+            <id>dorvak-repo</id>
+            <url>https://repository.dorvak.com/releases/</url>
+        </repository>
+    </distributionManagement>
+
 </project>
